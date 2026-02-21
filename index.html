@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <div class="halaman">
+        <div class="kotak">
+
+            <!-- Statistik -->
+            <div class="baris-stat">
+
+                <div class="kartu-stat">
+                    <div class="stat-kiri">
+                        <p class="stat-judul">TOTAL TASKS</p>
+                        <p class="stat-angka ungu" id="jumlah-total">0</p>
+                    </div>
+                    <div class="stat-ikon ungu-muda">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3L22 4" />
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="pembatas-stat"></div>
+
+                <div class="kartu-stat">
+                    <div class="stat-kiri">
+                        <p class="stat-judul">COMPLETED</p>
+                        <p class="stat-angka hijau" id="jumlah-selesai">0</p>
+                    </div>
+                    <div class="stat-ikon hijau-muda">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9 12l2 2 4-4" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="pembatas-stat"></div>
+
+                <div class="kartu-stat">
+                    <div class="stat-kiri">
+                        <p class="stat-judul">PENDING</p>
+                        <p class="stat-angka oranye" id="jumlah-belum">0</p>
+                    </div>
+                    <div class="stat-ikon oranye-muda">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="pembatas-stat"></div>
+
+                <div class="kartu-stat">
+                    <div class="stat-kiri">
+                        <p class="stat-judul">PROGRESS</p>
+                        <p class="stat-angka biru" id="teks-progres">0%</p>
+                    </div>
+                    <div class="stat-ikon biru-muda">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.21 15.89A10 10 0 118 2.83" />
+                            <path d="M22 12A10 10 0 0012 2v10z" />
+                        </svg>
+                    </div>
+                </div>
+
+            </div><!-- /baris-stat -->
+
+            <!-- Bar progres -->
+            <div class="bungkus-progres">
+                <div class="batang-progres" id="batang-progres"></div>
+            </div>
+
+            <!-- Form tambah -->
+            <div class="baris-tambah">
+                <input type="text" id="input-tugas" class="input-tugas" placeholder="Add a todo . . ."
+                    autocomplete="off" maxlength="100" />
+                <input type="date" id="input-tanggal" class="input-tanggal" />
+                <button id="tombol-tambah" class="tombol-tambah">+</button>
+            </div>
+
+            <!-- Kontrol: search + filter -->
+            <div class="baris-kontrol">
+                <div class="bungkus-cari">
+                    <svg class="ikon-cari" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input type="text" id="input-cari" class="input-cari" placeholder="Search tasks... (Ctrl+F)" />
+                </div>
+
+                <div class="bungkus-filter">
+                    <button id="tombol-filter" class="tombol-filter">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13"
+                            height="13">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                        </svg>
+                        FILTER
+                    </button>
+                    <div class="menu-filter tersembunyi" id="menu-filter">
+                        <button class="opsi-filter aktif" data-filter="semua">All Tasks</button>
+                        <button class="opsi-filter" data-filter="belum">Pending</button>
+                        <button class="opsi-filter" data-filter="selesai">Completed</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel tugas -->
+            <div class="bungkus-tabel">
+                <table class="tabel-tugas" id="tabel-tugas">
+                    <thead>
+                        <tr>
+                            <th class="th-tugas">TASK</th>
+                            <th class="th-tanggal">DUE DATE</th>
+                            <th class="th-status">STATUS</th>
+                            <th class="th-aksi">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi-tabel"></tbody>
+                </table>
+
+                <!-- Kosong -->
+                <div class="tampilan-kosong tersembunyi" id="tampilan-kosong">
+                    <p class="ikon-kosong">🗒️</p>
+                    <p>Belum ada tugas. Yuk tambahkan!</p>
+                </div>
+            </div>
+
+        </div><!-- /kotak -->
+    </div><!-- /halaman -->
+
+    <!-- Modal edit -->
+    <div class="latar-modal tersembunyi" id="latar-modal">
+        <div class="modal">
+            <h2 class="judul-modal">✏️ Edit Task</h2>
+            <label class="label-modal">Task Name</label>
+            <input type="text" id="edit-nama" class="input-modal" maxlength="100" />
+            <label class="label-modal">Due Date</label>
+            <input type="date" id="edit-tanggal" class="input-modal" />
+            <div class="aksi-modal">
+                <button id="batal-modal" class="tombol-batal">Cancel</button>
+                <button id="simpan-modal" class="tombol-simpan">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="notif-toast" class="notif-toast tersembunyi"></div>
+
+    <!-- Footer -->
+    <footer class="footer-bawah">
+        <p>Made by <strong>Syah Zidan</strong>|careerzidan@gmail.com</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
