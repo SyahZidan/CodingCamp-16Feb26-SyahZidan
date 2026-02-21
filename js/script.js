@@ -1,6 +1,3 @@
-// ===========================
-//  Todo List — script.js
-// ===========================
 
 // ── Data & State ──
 let daftarTugas = JSON.parse(localStorage.getItem('daftar-tugas') || '[]');
